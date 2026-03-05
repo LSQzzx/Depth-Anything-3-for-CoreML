@@ -88,7 +88,7 @@ def estimate_depth(image: Image.Image, depth_model: DepthAnything3Net | None = N
     depth_model = depth_model or MODEL
     padded_image, (scaled_width, scaled_height) = resize_and_pad(image, INPUT_SIZE)
     img_tensor = tensor_from_image(padded_image)
-    depth_output = depth_model(img_tensor[None, None])
+    depth_output = depth_model(img_tensor[None, None])[0]
     depth_crop = depth_output[:, :, :scaled_height, :scaled_width]
     width, height = image.size
     depth_resized = interpolate(depth_crop, size=(height, width), mode="bilinear")
